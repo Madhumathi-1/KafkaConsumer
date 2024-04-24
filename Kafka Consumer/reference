@@ -1,0 +1,42 @@
+// Table Columns
+ Client (ClientID, clientName, clientDomain)
+ Resource (resourceID, resourceName, zid) 
+ ZID (zid, resourceTypeID, clientID) 
+ 
+Database insertion process 
+
+
+{zid:"123",resourceType:"User"}
+
+  private static final Map<String, Integer> RESOURCE_TYPE_IDS = new HashMap<>();
+  static {
+      RESOURCE_TYPE_IDS.put("User", 1);
+      RESOURCE_TYPE_IDS.put("Group", 2);
+      RESOURCE_TYPE_IDS.put("Account", 3);
+  }
+  public static int getResourceID(String resourceType) {
+      return RESOURCE_TYPE_IDS.getOrDefault(resourceType, -1);
+  }
+
+   public static List<String> fetchClient(String zid, String resourceType) {
+        String key = zid + ":" + resourceType;
+        if (zidResourceClientMap.containsKey(key)) {
+            return zidResourceClientMap.get(key);
+        }
+         fetch it from the database
+        List<String> clients = fetchDataFromDatabase(zid, resourceType);
+        zidResourceClientMap.put(key, clients);
+        return clients;
+    }
+
+    // Method to fetch data from the database
+    private static List<String> fetchDataFromDatabase(String zid, String resourceType) {
+        // Add your database querying logic here
+        // Example:
+        List<String> clients = new ArrayList<>();
+        // Assume fetching data from database and populating clients list
+        clients.add("Client1");
+        clients.add("Client2");
+        return clients;
+    }
+  
